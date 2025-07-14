@@ -1,3 +1,16 @@
+    let questions;
+    let currentQuestionIndex = 0;
+    let score = 0;
+
+    const showQuestion = function(){
+        const questionObj = questions[currentQuestionIndex];
+        
+        const questionContainer = document.getElementById('question-container');
+        const optionContainer = document.getElementById('option-container');
+
+        questionContainer.innerHTML = decodeURIComponent(questionObj.question);
+    }
+
 document.getElementById('start-btn').addEventListener('click' , () => {
     const amount = document.getElementById('NoQues').value;
     const category = document.getElementById('category').value;
@@ -13,9 +26,16 @@ document.getElementById('start-btn').addEventListener('click' , () => {
     baseURL += `&encode=url3986`;
 
     fetch(baseURL)
-    .then(Response => Response.json())
+    .then(response => response.json())
     .then(data => {
-        console.log(data.results);
+        questions = data.results;
+        currentQuestionIndex = 0;
+        score = 0;
+
+        document.getElementById('setup-section').style.display = "none";
+        document.getElementById('quiz-section').style.display = "block";
+
+        showQuestion();
     })
     .catch(error => {
         console.error('Error fetching the quiz data',error);
