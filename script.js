@@ -1,28 +1,54 @@
-    let questions;
-    let currentQuestionIndex = 0;
-    let score = 0;
+let questions;
+let currentQuestionIndex = 0;
+let score = 0;
 
-    const showQuestion = function(){
-        const questionObj = questions[currentQuestionIndex];
-        
-        const questionContainer = document.getElementById('question-container');
-        const optionContainer = document.getElementById('option-container');
+const showQuestion = function () {
+    const questionObj = questions[currentQuestionIndex];
 
-        questionContainer.innerHTML = decodeURIComponent(questionObj.question);
+    const questionContainer = document.getElementById('question-container');
+    const optionContainer = document.getElementById('option-container');
 
-        let options = [...questionObj.incorrect_answers, questionObj.correct_answer];
+    questionContainer.innerHTML = decodeURIComponent(questionObj.question);
 
-        optionContainer.innerHTML = '';
+    let options = [...questionObj.incorrect_answers, questionObj.correct_answer];
 
-        options.forEach(option => {
-            const btn = document.createElement('button');
-            btn.textContent = decodeURIComponent(option);
-            btn.addEventListener('click', () =>{
-                checkAnswer(option, questionObj.correct_answer);
-            })
-            optionContainer.appendChild(btn);
-        });
+    optionContainer.innerHTML = '';
+
+    options.forEach(option => {
+        const btn = document.createElement('button');
+        btn.textContent = decodeURIComponent(option);
+        btn.addEventListener('click', () => {
+            checkAnswer(option, questionObj.correct_answer);
+        })
+        optionContainer.appendChild(btn);
+    });
+}
+
+const checkAnswer = function (selectedOption, correctAnswer) {
+
+    if (selectedOption === correctAnswer) {
+        score++;
     }
+
+    currentQuestionIndex++;
+
+    if (currentQuestionIndex < questions.length) {
+        showQuestion();
+    } else {
+        showResult();
+    }
+
+}
+
+const showResult = function(){
+    const quizSection = document.getElementById('quiz-section');
+
+    quizSection.innerHTML = `
+    <h2>Quiz Completed</h2>
+    <p>Your Score: ${score}/${questions.length}</p>
+    <button onclick = "location.reload()">Try Again</button>
+    `;
+}
 
 document.getElementById('start-btn').addEventListener('click' , () => {
     const amount = document.getElementById('NoQues').value;
