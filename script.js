@@ -9,6 +9,19 @@
         const optionContainer = document.getElementById('option-container');
 
         questionContainer.innerHTML = decodeURIComponent(questionObj.question);
+
+        let options = [...questionObj.incorrect_answers, questionObj.correct_answer];
+
+        optionContainer.innerHTML = '';
+
+        options.forEach(option => {
+            const btn = document.createElement('button');
+            btn.textContent = decodeURIComponent(option);
+            btn.addEventListener('click', () =>{
+                checkAnswer(option, questionObj.correct_answer);
+            })
+            optionContainer.appendChild(btn);
+        });
     }
 
 document.getElementById('start-btn').addEventListener('click' , () => {
