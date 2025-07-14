@@ -1,6 +1,7 @@
 let questions;
 let currentQuestionIndex = 0;
 let score = 0;
+const nextBtn = document.getElementById('next-btn');
 
 const showQuestion = function () {
     const questionObj = questions[currentQuestionIndex];
@@ -11,6 +12,8 @@ const showQuestion = function () {
     questionContainer.innerHTML = decodeURIComponent(questionObj.question);
 
     let options = [...questionObj.incorrect_answers, questionObj.correct_answer];
+    nextBtn.style.display = "inline-block";
+    nextBtn.disabled = true;
 
     optionContainer.innerHTML = '';
 
@@ -30,6 +33,12 @@ const checkAnswer = function (selectedOption, correctAnswer) {
         score++;
     }
 
+    nextBtn.disabled = false;
+
+}
+
+nextBtn.addEventListener('click', () => {
+
     currentQuestionIndex++;
 
     if (currentQuestionIndex < questions.length) {
@@ -38,7 +47,8 @@ const checkAnswer = function (selectedOption, correctAnswer) {
         showResult();
     }
 
-}
+    nextBtn.disabled = true;
+})
 
 const showResult = function(){
     const quizSection = document.getElementById('quiz-section');
