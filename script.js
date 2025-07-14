@@ -20,21 +20,34 @@ const showQuestion = function () {
     options.forEach(option => {
         const btn = document.createElement('button');
         btn.textContent = decodeURIComponent(option);
+        btn.classList.add('option-btn');
         btn.addEventListener('click', () => {
-            checkAnswer(option, questionObj.correct_answer);
+            checkAnswer(option, questionObj.correct_answer,btn);
         })
         optionContainer.appendChild(btn);
     });
 }
 
-const checkAnswer = function (selectedOption, correctAnswer) {
+const checkAnswer = function (selectedOption, correctAnswer, selectedButton) {
+
+    const allButtons = document.querySelectorAll('.option-btn');
+
+    allButtons.forEach(btn => {
+        btn.disabled = true;
+
+        if (btn.textContent === decodeURIComponent(correctAnswer)) {
+            btn.style.backgroundColor = 'green';
+        }
+        else if (btn === selectedButton) {
+            btn.style.backgroundColor = 'red';
+        }
+    });
 
     if (selectedOption === correctAnswer) {
         score++;
     }
 
     nextBtn.disabled = false;
-
 }
 
 nextBtn.addEventListener('click', () => {
