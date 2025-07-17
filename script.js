@@ -12,6 +12,8 @@ const showQuestion = function () {
     questionContainer.innerHTML = decodeURIComponent(questionObj.question);
 
     let options = [...questionObj.incorrect_answers, questionObj.correct_answer];
+    shuffleOptions(options);
+
     nextBtn.style.display = "inline-block";
     nextBtn.disabled = true;
 
@@ -71,6 +73,14 @@ const showResult = function(){
     <p>Your Score: ${score}/${questions.length}</p>
     <button onclick = "location.reload()">Try Again</button>
     `;
+}
+
+const shuffleOptions = function(array){
+    for(let i = array.length - 1 ; i > 0 ; i--){
+        let j = Math.floor(Math.random() * (i+1));
+
+        [array[i],array[j]] = [array[j],array[i]];
+    }
 }
 
 document.getElementById('start-btn').addEventListener('click' , () => {
